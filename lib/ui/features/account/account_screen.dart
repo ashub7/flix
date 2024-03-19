@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:event_bus/event_bus.dart';
 import 'package:flix/core/extension/build_context_ext.dart';
 import 'package:flix/core/extension/color_extension.dart';
 import 'package:flix/core/extension/date_time_extension.dart';

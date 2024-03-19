@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flix/core/extension/logger_provider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
@@ -21,6 +22,7 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
 
   Future<void> _onLoadFavorites(
       LoadFavorites event, Emitter<FavoriteState> emit) async {
+    logger.e("Load fav");
     emit(FavoritesLoading());
     final result = await _manageFavoritesUseCase.getAllFavorites();
     final favList = result.map((e) => e.toUiModel()).toList();

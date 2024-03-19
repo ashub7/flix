@@ -62,10 +62,9 @@ final routes = [
             path: RoutesName.home.path,
             pageBuilder: (context, GoRouterState state) {
               return _getPage(
-                  MultiBlocProvider(providers: [
-                    BlocProvider(create: (context) => getIt<HomeBloc>()),
-                    BlocProvider(create: (context) => getIt<FavoriteBloc>()),
-                  ], child: const HomeScreen()),
+                  BlocProvider(
+                      create: (context) => getIt<HomeBloc>(),
+                      child: const HomeScreen()),
                   state);
             },
           ),
@@ -78,12 +77,7 @@ final routes = [
             name: RoutesName.favorites.name,
             path: RoutesName.favorites.path,
             pageBuilder: (context, state) {
-              Map extras = state.extra as Map<String, dynamic>;
-              return _getPage(
-                  BlocProvider(
-                      create: (context) => getIt<FavoriteBloc>(),
-                      child:  FavoriteScreen(reload: extras["reload"],)),
-                  state);
+              return _getPage(const FavoriteScreen(), state);
             },
           ),
         ],
@@ -172,4 +166,3 @@ final routes = [
 _getPage(Widget child, GoRouterState state) {
   return MaterialPage(child: child, key: state.pageKey);
 }
-

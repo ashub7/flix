@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:event_bus/event_bus.dart';
+import 'package:collection/collection.dart';
 import 'package:flix/core/extension/build_context_ext.dart';
 import 'package:flix/ui/config/rout_names.dart';
 import 'package:flix/ui/features/favorite/bloc/favorite_bloc.dart';
@@ -12,8 +12,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sliver_tools/sliver_tools.dart';
-import '../../../main.dart';
-import '../../models/event_fav_change.dart';
 import '../../models/movie_list.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -29,27 +27,9 @@ class _HomeScreenState extends State<HomeScreen> {
   int currentPage = 1;
   final List<Movie> latestMovies = [];
   final List<Movie> topRated = [];
-  late StreamSubscription eventSubscription;
-
-  @override
-  void dispose() {
-    eventSubscription.cancel();
-    super.dispose();
-  }
-
   @override
   initState() {
     super.initState();
-    eventSubscription = eventBus.on<EventFavoriteChange>().listen((event) {
-      if (event.from == "home_page") return;
-      if (latestMovies.isEmpty) return;
-      int index = latestMovies.indexOf(event.movie);
-      if (index != -1) {
-        latestMovies[index].isFavorite = event.isAdded;
-        BlocProvider.of<HomeBloc>(context).add(NotifyHomeListEvent());
-      }
-    });
-
     BlocProvider.of<HomeBloc>(context).add(LoadMoviesEvent());
     _scrollController.addListener(() {
       if (_scrollController.position.maxScrollExtent ==
@@ -148,14 +128,11 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<void> _onFavoriteChanged(
       BuildContext context, FavoriteState state) async {
     if (state is FavoriteModified) {
-      if (state.isAdded) {
-        context.showSuccessSnackBar("Added");
-      } else {
-        context.showSuccessSnackBar("Removed");
+      Movie? movie = latestMovies.firstWhereOrNull((element) => element.id == state.movie.id);
+      if (movie != null) {
+        movie.isFavorite = state.isAdded;
+        BlocProvider.of<HomeBloc>(context).add(NotifyHomeListEvent());
       }
-      BlocProvider.of<HomeBloc>(context).add(NotifyHomeListEvent());
-      eventBus.fire(EventFavoriteChange(
-          movie: state.movie, isAdded: state.isAdded, from: "home_page"));
     }
   }
 

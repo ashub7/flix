@@ -1,8 +1,5 @@
-import 'dart:async';
 
-import 'package:event_bus/event_bus.dart';
 import 'package:flix/core/extension/build_context_ext.dart';
-import 'package:flix/core/extension/logger_provider.dart';
 import 'package:flix/core/extension/text_style_extension.dart';
 import 'package:flix/ui/features/favorite/bloc/favorite_bloc.dart';
 import 'package:flix/ui/features/favorite/widgets/fav_list.dart';
@@ -10,15 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-
-import '../../../main.dart';
 import '../../config/rout_names.dart';
-import '../../models/event_fav_change.dart';
 import '../../models/movie_list.dart';
 
 class FavoriteScreen extends StatefulWidget {
-  final bool reload;
-  const FavoriteScreen({super.key, required this.reload});
+  const FavoriteScreen({super.key});
 
   @override
   State<FavoriteScreen> createState() => _FavoriteScreenState();
@@ -28,26 +21,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
   List<Movie>? movieList;
 
   @override
-  void activate() {
-    logger.e("activate");
-    super.activate();
-  }
-
-  @override
-  void didChangeDependencies() {
-    logger.e("didChangeDependencies");
-    super.didChangeDependencies();
-  }
-
-  @override
-  void didUpdateWidget(covariant FavoriteScreen oldWidget) {
-    logger.e("didUpdateWidget");
-    super.didUpdateWidget(oldWidget);
-  }
-
-  @override
   Widget build(BuildContext context) {
-    logger.e("build");
     return SafeArea(
         child: NestedScrollView(
       headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
@@ -130,9 +104,9 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
               },
             );
           }
-          eventBus.fire(EventFavoriteChange(
+  /*        eventBus.fire(EventFavoriteChange(
               movie: state.movie, isAdded: state.isAdded, from: "fav_page"));
-        }
+        */}
       },
     );
   }

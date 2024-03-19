@@ -3,11 +3,9 @@ import 'package:flix/data/local/database/app_database.dart';
 import 'package:flix/data/local/database/user_dao.dart';
 import 'package:flix/data/local/model/user_model.dart';
 import 'package:flix/ui/features/registration/bloc/registration_bloc.dart';
-import 'package:flix/ui/features/registration/register_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../helpers/json_reader.dart';
 import '../../ui_test_helper.dart';
 
@@ -31,6 +29,8 @@ void main() {
     userDao = database.userDao;
     testUser = dummyUser();
   });
+
+
 
   tearDown(() async {
     await database.close();

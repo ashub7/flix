@@ -12,8 +12,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 import '../../config/theme/app_theme.dart';
 
-
-
 class Application extends StatefulWidget {
   const Application({super.key});
 
@@ -35,47 +33,56 @@ class _ApplicationState extends State<Application> {
     );
 
     return ScreenUtilInit(
-    designSize: const Size(360, 690),
-    minTextAdapt: true,
+      designSize: const Size(360, 690),
+      minTextAdapt: true,
       child: DynamicColorBuilder(
         builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
           ColorScheme lightColorScheme = ColorScheme.fromSeed(
             seedColor: const Color(0XFF2CD312),
-          );;
+          );
+          ;
           ColorScheme darkColorScheme = ColorScheme.fromSeed(
             seedColor: const Color(0XFF2CD312),
             brightness: Brightness.dark,
-          );;
-
-          return MaterialApp.router(
-            routerConfig: router,
-            debugShowCheckedModeBanner: false,
-            themeMode: ThemeMode.system,
-            theme: appTheme(
-              context,
-              lightColorScheme,
-              fontPreference,
-              lightTextTheme,
-              ThemeData.light().dividerColor,
-              SystemUiOverlayStyle.dark,
-            ),
-            darkTheme: appTheme(
-              context,
-              darkColorScheme,
-              fontPreference,
-              darkTextTheme,
-              ThemeData.dark().dividerColor,
-              SystemUiOverlayStyle.light,
-            ),localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-            supportedLocales: const [
-              Locale('en'), // English
-            ],
           );
+          ;
+
+          return MultiBlocProvider(
+              providers: [
+                BlocProvider<FavoriteBloc>(
+                  create: (context) => getIt<FavoriteBloc>(),
+                )
+              ],
+              child: MaterialApp.router(
+                routerConfig: router,
+                debugShowCheckedModeBanner: false,
+                themeMode: ThemeMode.system,
+                theme: appTheme(
+                  context,
+                  lightColorScheme,
+                  fontPreference,
+                  lightTextTheme,
+                  ThemeData.light().dividerColor,
+                  SystemUiOverlayStyle.dark,
+                ),
+                darkTheme: appTheme(
+                  context,
+                  darkColorScheme,
+                  fontPreference,
+                  darkTextTheme,
+                  ThemeData.dark().dividerColor,
+                  SystemUiOverlayStyle.light,
+                ),
+                localizationsDelegates: const [
+                  AppLocalizations.delegate,
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                  GlobalCupertinoLocalizations.delegate,
+                ],
+                supportedLocales: const [
+                  Locale('en'), // English
+                ],
+              ));
         },
       ),
     );
