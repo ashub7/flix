@@ -32,7 +32,8 @@ enum RegistrationValidationError {
   invalidEmail,
   nameEmpty,
   dobEmpty,
-  passwordMatchError
+  passwordMatchError,
+  userAlreadyExists
 }
 
 extension RegistrationErrorMapper on RegistrationValidationError {
@@ -48,6 +49,8 @@ extension RegistrationErrorMapper on RegistrationValidationError {
         return context.loc.invalid_dob;
       case RegistrationValidationError.passwordMatchError:
         return context.loc.password_not_matched;
+      case RegistrationValidationError.userAlreadyExists:
+        return context.loc.user_exists;
     }
   }
 }

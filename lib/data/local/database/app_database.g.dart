@@ -167,6 +167,20 @@ class _$UserDao extends UserDao {
   }
 
   @override
+  Future<UserModel?> findPersonByEmail(String email) async {
+    return _queryAdapter.query('SELECT * FROM user_table WHERE email = ?1',
+        mapper: (Map<String, Object?> row) => UserModel(
+            id: row['id'] as int?,
+            fullName: row['fullName'] as String,
+            email: row['email'] as String,
+            password: row['password'] as String,
+            gender: row['gender'] as int,
+            avatar: row['avatar'] as String,
+            dob: row['dob'] as String),
+        arguments: [email]);
+  }
+
+  @override
   Future<int> insertUser(UserModel userModel) {
     return _userModelInsertionAdapter.insertAndReturnId(
         userModel, OnConflictStrategy.replace);

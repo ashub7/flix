@@ -16,4 +16,6 @@ abstract class UserDao {
   @Query('DELETE FROM user_table')
   Future<void> deleteAll();
 
+  @Query('SELECT * FROM user_table WHERE email = :email')
+  Future<UserModel?> findPersonByEmail(String email);
 }

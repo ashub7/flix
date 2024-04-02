@@ -20,6 +20,9 @@ abstract class LocalDataSource {
   Future<int> addToFavorites(FavMovieModel favMovieModel);
 
   Future<void> removeFromFavorites(int id);
+
+  Future<UserModel?> findUserByEmail(String email);
+
 }
 
 @LazySingleton(as: LocalDataSource)
@@ -67,5 +70,10 @@ class LocalDataSourceImpl implements LocalDataSource {
   @override
   Future<void> removeFromFavorites(int id) async {
     return _favDao.removeFromFavorites(id);
+  }
+
+  @override
+  Future<UserModel?> findUserByEmail(String email) async {
+    return _userDao.findPersonByEmail(email);
   }
 }

@@ -6,9 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../../../domain/usecases/account/profile_usecase.dart';
 import '../../../../domain/usecases/account/registration_usecase.dart';
 import '../../../../domain/repository/preference_repository.dart';
-
 
 part 'registration_event.dart';
 
@@ -18,41 +18,48 @@ part 'registration_state.dart';
 class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
   final RegistrationUseCase _registrationUseCase;
   final PreferenceRepository _preferenceRepository;
+  final ProfileUseCase _profileUseCase;
 
-  RegistrationBloc(this._registrationUseCase, this._preferenceRepository) : super(RegistrationInitial()) {
+  RegistrationBloc(this._registrationUseCase, this._preferenceRepository,
+      this._profileUseCase)
+      : super(RegistrationInitial()) {
     on<RegistrationProfilePicEvent>((event, emit) {
       emit(RegistrationProfilePicState(imageUrl: event.imageUrl));
     });
     on<RegistrationSubmitEvent>(_onSubmit);
   }
 
-  Future<void> _onSubmit(RegistrationSubmitEvent event, Emitter<RegistrationState> emit) async {
+  Future<void> _onSubmit(
+      RegistrationSubmitEvent event, Emitter<RegistrationState> emit) async {
     emit(RegistrationLoading());
-    RegistrationValidationError? errorType =  _validateForm(event);
+    RegistrationValidationError? errorType = _validateForm(event);
     if (errorType == null) {
-      final userId = await _registrationUseCase(RegistrationParams(
-          fullName: event.fullName,
-          email: event.email,
-          password: event.password,
-          gender: event.gender,
-          avatar: event.avatar,
-          dob: event.dob));
-      _preferenceRepository.setInt(PreferenceKeys.loggedInUserId, userId);
-      emit(RegistrationSuccess());
+      final userResponse = await _profileUseCase.getProfileByEmail(event.email);
+      if (userResponse == null) {
+        final userId = await _registrationUseCase(RegistrationParams(
+            fullName: event.fullName,
+            email: event.email,
+            password: event.password,
+            gender: event.gender,
+            avatar: event.avatar,
+            dob: event.dob));
+        _preferenceRepository.setInt(PreferenceKeys.loggedInUserId, userId);
+        emit(RegistrationSuccess());
+      } else {
+        emit(const RegistrationErrorState(
+            errorType: RegistrationValidationError.userAlreadyExists));
+      }
     } else {
       emit(RegistrationErrorState(errorType: errorType));
     }
   }
 
-  RegistrationValidationError? _validateForm(
-      RegistrationSubmitEvent event)  {
+  RegistrationValidationError? _validateForm(RegistrationSubmitEvent event) {
     if (event.fullName.isEmpty) {
       return RegistrationValidationError.nameEmpty;
     } else if (!event.email.isValidEmail()) {
       return RegistrationValidationError.invalidEmail;
-    } else if (event.dob.isEmpty) {
-      return RegistrationValidationError.dobEmpty;
-    } else if (!event.password.isValidPassword()) {
+    }  else if (!event.password.isValidPassword()) {
       return RegistrationValidationError.invalidPassword;
     } else if (event.password != event.confirmPassword) {
       return RegistrationValidationError.passwordMatchError;

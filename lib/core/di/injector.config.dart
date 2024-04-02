@@ -128,6 +128,7 @@ extension GetItInjectableX on _i1.GetIt {
     gh.factory<_i33.RegistrationBloc>(() => _i33.RegistrationBloc(
           gh<_i23.RegistrationUseCase>(),
           gh<_i12.PreferenceRepository>(),
+          gh<_i22.ProfileUseCase>(),
         ));
     gh.factory<_i34.DetailBloc>(() => _i34.DetailBloc(
           gh<_i28.GetMovieDetailUseCase>(),

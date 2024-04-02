@@ -18,4 +18,8 @@ class ProfileUseCase {
   Future<int> updateProfile(UserModel userModel) {
     return _databaseRepository.updateProfile(userModel);
   }
+
+  Future<UserModel?> getProfileByEmail(String email) {
+    return _databaseRepository.findUserByEmail(email);
+  }
 }

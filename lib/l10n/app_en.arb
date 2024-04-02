@@ -39,5 +39,6 @@
   "home": "Home",
   "favorite": "Favorite",
   "account": "Account",
-  "log_out": "Log out"
+  "log_out": "Log out",
+  "user_exists": "User already exists, Please login"
 }

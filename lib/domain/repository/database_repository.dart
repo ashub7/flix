@@ -11,6 +11,8 @@ import '../../data/local/model/user_model.dart';
 abstract class DatabaseRepository{
   Future<List<UserModel>> getAllUsers();
   Future<UserModel?> findUserById(int id);
+  Future<UserModel?> findUserByEmail(String email);
+
   Future<int> registerUser(RegistrationParams registrationParams);
   Future<void> clearAll();
   Future<int> updateProfile(UserModel userModel);

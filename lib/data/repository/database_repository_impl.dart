@@ -62,4 +62,9 @@ class DatabaseRepositoryImpl extends DatabaseRepository {
   Future<int> updateProfile(UserModel userModel)async{
    return _localUserDataSource.registerUser(userModel);
   }
+
+  @override
+  Future<UserModel?> findUserByEmail(String email) async{
+    return _localUserDataSource.findUserByEmail(email);
+  }
 }
