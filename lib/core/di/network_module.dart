@@ -19,7 +19,7 @@ abstract class NetworkModule{
       responseBody: false
     ));
     dio.interceptors.add(InterceptorsWrapper(onRequest: (options, handler) {
-      options.queryParameters["api_key"] = Constants.apiKey;
+      options.queryParameters["api_key"] = "060e7c76aff06a20ca4a875981216f3f";
       return handler.next(options);
     },));
     return dio;
