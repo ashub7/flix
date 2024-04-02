@@ -24,6 +24,12 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
     on<ProfilePicChangeEvent>((event, emit) {
       emit(ProfilePicChangedState(imageUrl: event.imageUrl));
     });
+    on<LogOutEvent>(
+          (event, emit) async {
+        _preferenceRepository.clearAll();
+        emit(AccountLoggedOut());
+      },
+    );
   }
 
   Future<void> _onLoadProfile(

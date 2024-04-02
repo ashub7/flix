@@ -1,9 +1,11 @@
 import 'package:collection/collection.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flix/core/extension/logger_provider.dart';
 import 'package:flix/domain/entities/cast_entity.dart';
 import 'package:flix/domain/entities/movie_detail_entity.dart';
 import 'package:flix/domain/entities/movie_photos_entity.dart';
+import 'package:flix/src/messages.g.dart';
 import 'package:flix/ui/models/cast.dart';
 import 'package:flix/ui/models/movie_detail.dart';
 import 'package:flix/ui/models/movie_photos.dart';
@@ -75,5 +77,11 @@ class DetailBloc extends Bloc<DetailEvent, DetailState> {
           backdrops: backdrops ?? [],
           posters: posters ?? []));
     }
+  }
+
+   getPlatform() async{
+    final DeviceInfoManager _api = DeviceInfoManager();
+    final info = await _api.getDeviceInfo();
+    logger.e("device info ${info.name}");
   }
 }

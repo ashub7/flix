@@ -35,8 +35,9 @@
   "f_popularity": "Popularity :  %s",
   "f_revenue": "Revenue:  $%s",
   "story_line": "Story line",
-  "more":"More",
-  "home":"Home",
-  "favorite":"Favorite",
-  "account":"Account"
+  "more": "More",
+  "home": "Home",
+  "favorite": "Favorite",
+  "account": "Account",
+  "log_out": "Log out"
 }

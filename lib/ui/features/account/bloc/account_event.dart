@@ -8,6 +8,8 @@ sealed class AccountEvent extends Equatable {
 }
 
 final class LoadProfile extends AccountEvent {}
+final class LogOutEvent extends AccountEvent {}
+
 
 final class ProfilePicChangeEvent extends AccountEvent {
   final String imageUrl;

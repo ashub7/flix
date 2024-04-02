@@ -8,42 +8,21 @@ import 'package:flix/ui/features/detail/bloc/detail_bloc.dart';
 import 'package:flix/ui/features/detail/widgets/cast_list.dart';
 import 'package:flix/ui/features/detail/widgets/curve_clipper.dart';
 import 'package:flix/ui/features/detail/widgets/photos_list.dart';
-import 'package:flix/ui/features/home/widgets/movie_image_widget.dart';
 import 'package:flix/ui/models/movie_detail.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
-import 'package:flutter/widgets.dart';
 import 'dart:math' as math;
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:readmore/readmore.dart';
 import 'package:sprintf/sprintf.dart';
-
-import '../../../core/di/injector.dart';
 import '../../widgets/api_error_widget.dart';
 
-class DetailScreen extends StatefulWidget {
+class DetailScreen extends StatelessWidget {
   final int movieId;
 
   const DetailScreen({super.key, required this.movieId});
-
-  @override
-  State<DetailScreen> createState() => _DetailScreenState();
-}
-
-class _DetailScreenState extends State<DetailScreen> {
-  late DetailBloc _detailBloc;
-
-  @override
-  void initState() {
-    super.initState();
-    _detailBloc = getIt<DetailBloc>();
-    _detailBloc.add(LoadDetailEvent(movieId: widget.movieId));
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,14 +33,14 @@ class _DetailScreenState extends State<DetailScreen> {
         backgroundColor: Colors.transparent,
       ),
       body: BlocBuilder(
-        bloc: _detailBloc,
+        bloc: BlocProvider.of<DetailBloc>(context),
         builder: (BuildContext context, state) {
           if (state is DetailLoadError) {
             return ApiErrorWidget(
               errorText: state.message,
               onRetry: () {
-                _detailBloc
-                    .add(LoadDetailEvent(movieId: widget.movieId));
+                BlocProvider.of<DetailBloc>(context)
+                    .add(LoadDetailEvent(movieId: movieId));
               },
             );
           } else if (state is DetailLoaded) {
@@ -182,6 +161,7 @@ class _DetailScreenState extends State<DetailScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     _ratingBar(movieDetail),
+                    5.verticalSpaceFromWidth,
                     Text(
                       context.loc.grade_now,
                       style: context.bodySmall?.copyWith(color: Colors.grey),

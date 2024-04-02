@@ -144,7 +144,7 @@ final routes = [
       Map extras = state.extra as Map<String, dynamic>;
       return _getPage(
           MultiBlocProvider(providers: [
-            BlocProvider(create: (context) => getIt<DetailBloc>()),
+            BlocProvider(create: (context) => getIt<DetailBloc>()..add(LoadDetailEvent(movieId: extras["id"]))),
             BlocProvider(create: (context) => getIt<FavoriteBloc>()),
           ], child: DetailScreen(movieId: extras["id"])),
           state);

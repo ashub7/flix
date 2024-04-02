@@ -6,6 +6,8 @@ import 'package:flix/data/remote/models/cast_response.dart';
 import 'package:flix/data/remote/models/movie_detail_response.dart';
 import 'package:flix/data/remote/models/movie_list_response.dart';
 import 'package:flix/data/remote/models/movie_photos_response.dart';
+import 'package:flix/ui/models/movie_detail.dart';
+
 
 String readJson(String name) {
   var dir = Directory.current.path;

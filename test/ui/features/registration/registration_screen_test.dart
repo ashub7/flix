@@ -3,42 +3,45 @@ import 'package:flix/data/local/database/app_database.dart';
 import 'package:flix/data/local/database/user_dao.dart';
 import 'package:flix/data/local/model/user_model.dart';
 import 'package:flix/ui/features/registration/bloc/registration_bloc.dart';
+import 'package:flix/ui/features/registration/register_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import '../../../helpers/json_reader.dart';
+import '../../mock_blocs.dart';
 import '../../ui_test_helper.dart';
 
-class MockRegistrationBloc
-    extends MockBloc<RegistrationEvent, RegistrationState>
-    implements RegistrationBloc {}
+
 
 void main() {
-  late AppDatabase database;
+ // late AppDatabase database;
   late UserDao userDao;
   late Widget widgetUnderTest;
   late UserModel testUser;
   late RegistrationBloc mockBloc;
 
-  setUp(() async {
+  setUpAll(() async{
     mockBloc = MockRegistrationBloc();
     widgetUnderTest = makeTestableWidget(
         child: BlocProvider(
-            create: (context) => mockBloc, child: const MaterialApp()));
-    database = await $FloorAppDatabase.inMemoryDatabaseBuilder().build();
+            create: (context) => mockBloc, child: const RegisterScreen()));
+/*    database = await $FloorAppDatabase.inMemoryDatabaseBuilder().build();
     userDao = database.userDao;
-    testUser = dummyUser();
+    testUser = dummyUser();*/
   });
 
 
 
-  tearDown(() async {
+ /* tearDown(() async {
     await database.close();
-  });
+  });*/
   testWidgets("Sign Up", (widgetTester) async {
     await widgetTester.pumpWidget(widgetUnderTest);
-    expect(find.byType(AppBar), findsOneWidget);
-    expect(find.text("Sign up"), findsOneWidget);
+   // expect(find.byType(AppBar), findsOneWidget);
+    //expect(find.text("Sign up"), findsOneWidget);
+    await widgetTester.pump();
+    final nameFieldFinder = find.byKey(const Key("name_field"));
+    expect(nameFieldFinder, findsOneWidget);
   });
 
 /*  testWidgets("Sign Up", (tester) async {

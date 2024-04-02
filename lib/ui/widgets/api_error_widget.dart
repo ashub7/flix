@@ -10,6 +10,7 @@ class ApiErrorWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
+      key: const Key("api_error_widget"),
       width: double.infinity,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,

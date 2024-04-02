@@ -3,12 +3,15 @@ import 'dart:io';
 import 'package:flix/core/extension/build_context_ext.dart';
 import 'package:flix/core/extension/color_extension.dart';
 import 'package:flix/core/extension/date_time_extension.dart';
+import 'package:flix/core/extension/text_style_extension.dart';
 import 'package:flix/ui/features/account/bloc/account_bloc.dart';
 import 'package:flix/ui/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
+import '../../config/rout_names.dart';
 import '../../widgets/form_text_field.dart';
 import '../../widgets/modal/bottom_sheets.dart';
 import '../../widgets/modal/image_picker_modal.dart';
@@ -35,7 +38,7 @@ class _AccountScreenState extends State<AccountScreen> {
       builder: (context, state) => BlocBuilder(
         bloc: BlocProvider.of<AccountBloc>(context),
         builder: (BuildContext context, state) {
-          if(user!=null){
+          if (user != null) {
             return _profileView(user!);
           }
           return const SizedBox.expand();
@@ -48,48 +51,73 @@ class _AccountScreenState extends State<AccountScreen> {
           user?.avatar = state.imageUrl;
         } else if (state is ProfileLoaded) {
           user = state.user;
+        } else if (state is AccountLoggedOut) {
+          context.go(RoutesName.login.path);
         }
       },
     ));
   }
 
   Widget _profileView(User userModel) {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Column(
-          children: [
-            20.verticalSpaceFromWidth,
-            _avatar(context, userModel),
-            50.verticalSpaceFromWidth,
-            FormTextField(
-              _nameController..text = userModel.fullName,
-              hintText: context.loc.full_name,
-              textCapitalization: TextCapitalization.sentences,
-              keyboardType: TextInputType.text,
+    return Column(
+      children: [
+        Expanded(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Column(
+                children: [
+                  20.verticalSpaceFromWidth,
+                  _avatar(context, userModel),
+                  50.verticalSpaceFromWidth,
+                  FormTextField(
+                    _nameController..text = userModel.fullName,
+                    hintText: context.loc.full_name,
+                    textCapitalization: TextCapitalization.sentences,
+                    keyboardType: TextInputType.text,
+                  ),
+                  16.verticalSpaceFromWidth,
+                  FormTextField(
+                    _emailController..text = userModel.email,
+                    hintText: context.loc.email,
+                    keyboardType: TextInputType.emailAddress,
+                    isEnabled: false,
+                  ),
+                  15.verticalSpaceFromWidth,
+                  _dateField(userModel),
+                  16.verticalSpaceFromWidth,
+                  6.verticalSpaceFromWidth,
+                  GenderSelectionRadioGroup(
+                    selectedIndex: userModel.gender,
+                    onSelected: (selectedIndex) {
+                      userModel.gender = selectedIndex;
+                    },
+                  ),
+                  22.verticalSpaceFromWidth,
+                  _submitButton(context, userModel),
+                ],
+              ),
             ),
-            16.verticalSpaceFromWidth,
-            FormTextField(
-              _emailController..text = userModel.email,
-              hintText: context.loc.email,
-              keyboardType: TextInputType.emailAddress,
-              isEnabled: false,
-            ),
-            15.verticalSpaceFromWidth,
-            _dateField(userModel),
-            16.verticalSpaceFromWidth,
-            6.verticalSpaceFromWidth,
-            GenderSelectionRadioGroup(
-              selectedIndex: userModel.gender,
-              onSelected: (selectedIndex) {
-                userModel.gender = selectedIndex;
-              },
-            ),
-            22.verticalSpaceFromWidth,
-            _submitButton(context, userModel),
-          ],
+          ),
         ),
-      ),
+        Align(
+          alignment: Alignment.bottomRight,
+          child: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: TextButton(
+              onPressed: () {
+                BlocProvider.of<AccountBloc>(context).add(LogOutEvent());
+              },
+              child: Text(
+                context.loc.log_out,
+                style: context.bodyMedium?.copyWith(
+                  color: Colors.red
+                ),
+              ),
+            ),
+          ),
+        )
+      ],
     );
   }
 

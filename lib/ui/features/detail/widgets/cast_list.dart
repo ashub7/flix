@@ -51,6 +51,7 @@ class CastList extends StatelessWidget {
             },),
           3.verticalSpaceFromWidth,
           Text(cast.name!, style: context.bodyMedium, maxLines: 2,
+            textAlign: TextAlign.center,
             overflow: TextOverflow.ellipsis,)
         ],
       ),
