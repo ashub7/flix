@@ -1,9 +1,10 @@
+import 'package:equatable/equatable.dart';
 import 'package:flix/data/local/database/converters.dart';
 import 'package:flix/ui/models/movie_list.dart';
 import 'package:floor/floor.dart';
 
 @Entity(tableName: "fav_table")
-class FavMovieModel {
+class FavMovieModel extends Equatable{
   bool adult;
   String? backdropPath;
   @PrimaryKey(autoGenerate: false)
@@ -72,4 +73,7 @@ class FavMovieModel {
         voteAverage: voteAverage,
         voteCount: voteCount);
   }
+
+  @override
+  List<Object?> get props => [id];
 }

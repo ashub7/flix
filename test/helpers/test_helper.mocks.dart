@@ -7,6 +7,7 @@ import 'dart:async' as _i5;
 
 import 'package:dartz/dartz.dart' as _i3;
 import 'package:flix/core/errors/api_failure.dart' as _i11;
+import 'package:flix/data/local/model/fav_movie_model.dart' as _i22;
 import 'package:flix/data/local/model/user_model.dart' as _i18;
 import 'package:flix/data/remote/models/cast_response.dart' as _i8;
 import 'package:flix/data/remote/models/movie_detail_response.dart' as _i7;
@@ -22,6 +23,15 @@ import 'package:flix/domain/repository/preference_repository.dart' as _i19;
 import 'package:flix/domain/usecases/account/login_usecase.dart' as _i20;
 import 'package:flix/domain/usecases/account/profile_usecase.dart' as _i17;
 import 'package:flix/domain/usecases/account/registration_usecase.dart' as _i16;
+import 'package:flix/domain/usecases/movie/favorite_mapper_usecase.dart'
+    as _i25;
+import 'package:flix/domain/usecases/movie/get_latest_movies_usecase.dart'
+    as _i23;
+import 'package:flix/domain/usecases/movie/get_top_rated_movies_usecase.dart'
+    as _i24;
+import 'package:flix/domain/usecases/movie/manage_favorites_usecase.dart'
+    as _i21;
+import 'package:flix/ui/models/movie_detail.dart' as _i26;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:retrofit/retrofit.dart' as _i2;
 
@@ -426,4 +436,144 @@ class MockLoginUseCase extends _i1.Mock implements _i20.LoginUseCase {
         ),
         returnValue: _i5.Future<int>.value(0),
       ) as _i5.Future<int>);
+}
+
+/// A class which mocks [ManageFavoritesUseCase].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockManageFavoritesUseCase extends _i1.Mock
+    implements _i21.ManageFavoritesUseCase {
+  MockManageFavoritesUseCase() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i5.Future<List<_i22.FavMovieModel>> getAllFavorites() => (super.noSuchMethod(
+        Invocation.method(
+          #getAllFavorites,
+          [],
+        ),
+        returnValue:
+            _i5.Future<List<_i22.FavMovieModel>>.value(<_i22.FavMovieModel>[]),
+      ) as _i5.Future<List<_i22.FavMovieModel>>);
+
+  @override
+  _i5.Future<_i22.FavMovieModel?> findFavoriteById(int? id) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #findFavoriteById,
+          [id],
+        ),
+        returnValue: _i5.Future<_i22.FavMovieModel?>.value(),
+      ) as _i5.Future<_i22.FavMovieModel?>);
+
+  @override
+  _i5.Future<int> addToFavorites(_i22.FavMovieModel? favMovieModel) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #addToFavorites,
+          [favMovieModel],
+        ),
+        returnValue: _i5.Future<int>.value(0),
+      ) as _i5.Future<int>);
+
+  @override
+  _i5.Future<void> removeFromFavorites(int? id) => (super.noSuchMethod(
+        Invocation.method(
+          #removeFromFavorites,
+          [id],
+        ),
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
+}
+
+/// A class which mocks [GetLatestMoviesUseCase].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockGetLatestMoviesUseCase extends _i1.Mock
+    implements _i23.GetLatestMoviesUseCase {
+  MockGetLatestMoviesUseCase() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i5.Future<_i3.Either<_i11.ApiFailure, _i12.MovieListEntity>> call(
+          int? params) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #call,
+          [params],
+        ),
+        returnValue:
+            _i5.Future<_i3.Either<_i11.ApiFailure, _i12.MovieListEntity>>.value(
+                _FakeEither_1<_i11.ApiFailure, _i12.MovieListEntity>(
+          this,
+          Invocation.method(
+            #call,
+            [params],
+          ),
+        )),
+      ) as _i5.Future<_i3.Either<_i11.ApiFailure, _i12.MovieListEntity>>);
+}
+
+/// A class which mocks [GetTopRatedMoviesUseCase].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockGetTopRatedMoviesUseCase extends _i1.Mock
+    implements _i24.GetTopRatedMoviesUseCase {
+  MockGetTopRatedMoviesUseCase() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i5.Future<_i3.Either<_i11.ApiFailure, _i12.MovieListEntity>> call(
+          int? params) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #call,
+          [params],
+        ),
+        returnValue:
+            _i5.Future<_i3.Either<_i11.ApiFailure, _i12.MovieListEntity>>.value(
+                _FakeEither_1<_i11.ApiFailure, _i12.MovieListEntity>(
+          this,
+          Invocation.method(
+            #call,
+            [params],
+          ),
+        )),
+      ) as _i5.Future<_i3.Either<_i11.ApiFailure, _i12.MovieListEntity>>);
+}
+
+/// A class which mocks [FavoriteMapperUseCase].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockFavoriteMapperUseCase extends _i1.Mock
+    implements _i25.FavoriteMapperUseCase {
+  MockFavoriteMapperUseCase() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i5.Future<void> mapList(_i12.MovieListEntity? movieListEntity) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #mapList,
+          [movieListEntity],
+        ),
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
+
+  @override
+  _i5.Future<void> mapDetail(_i26.MovieDetail? movieDetail) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #mapDetail,
+          [movieDetail],
+        ),
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
 }

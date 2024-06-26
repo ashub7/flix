@@ -4,6 +4,10 @@ import 'package:flix/domain/repository/preference_repository.dart';
 import 'package:flix/domain/usecases/account/login_usecase.dart';
 import 'package:flix/domain/usecases/account/profile_usecase.dart';
 import 'package:flix/domain/usecases/account/registration_usecase.dart';
+import 'package:flix/domain/usecases/movie/favorite_mapper_usecase.dart';
+import 'package:flix/domain/usecases/movie/get_latest_movies_usecase.dart';
+import 'package:flix/domain/usecases/movie/get_top_rated_movies_usecase.dart';
+import 'package:flix/domain/usecases/movie/manage_favorites_usecase.dart';
 import 'package:mockito/annotations.dart';
 
 @GenerateMocks([
@@ -12,6 +16,10 @@ import 'package:mockito/annotations.dart';
   RegistrationUseCase,
   ProfileUseCase,
   PreferenceRepository,
-  LoginUseCase
+  LoginUseCase,
+  ManageFavoritesUseCase,
+  GetLatestMoviesUseCase,
+  GetTopRatedMoviesUseCase,
+  FavoriteMapperUseCase
 ])
 void main() {}

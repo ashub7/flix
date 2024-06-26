@@ -22,7 +22,6 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
 
   Future<void> _onLoadFavorites(
       LoadFavorites event, Emitter<FavoriteState> emit) async {
-    logger.e("Load fav");
     emit(FavoritesLoading());
     final result = await _manageFavoritesUseCase.getAllFavorites();
     final favList = result.map((e) => e.toUiModel()).toList();
