@@ -1,23 +1,35 @@
-import 'package:flutter/material.dart';
+import 'package:flix/core/extension/logger_provider.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class PagingController<T> {
   final List<T> _items = [];
-  final ScrollController scrollController;
   bool hasNextPage = true, isLoading = false;
   void Function()? pageRequestListener;
+  void Function(int)? pageTopOffsetListener;
+  final ItemScrollController itemScrollController = ItemScrollController();
+  final ItemPositionsListener itemPositionsListener = ItemPositionsListener.create();
+  int itemCount =0;
 
   PagingController({
-    required this.scrollController,
-    this.pageRequestListener
+    this.pageRequestListener,
+    this.pageTopOffsetListener
   }) {
-    scrollController.addListener(() {
-      if (scrollController.position.maxScrollExtent ==
-          scrollController.position.pixels) {
-        if (!isLoading && hasNextPage) {
-          isLoading = !isLoading;
-          pageRequestListener?.call();
-        }
+    itemPositionsListener.itemPositions.addListener(() {
+      final positions = itemPositionsListener.itemPositions.value;
+      if(positions.last.index == itemCount-1){
+        pageRequestListener?.call();
       }
+      if(positions.first.index ==0){
+        logger.d("call previous");
+      }
+      pageTopOffsetListener?.call(positions.first.index);
+      //logger.e("${positions.first.index} and ${_items.length}");
+     /* if(positions.first.index == 10) {
+        pageTopOffsetListener?.call();
+      }
+      if(positions.first.index < 10) {
+        pageTopOffsetListener?.call();
+      }*/
     });
   }
 
@@ -56,6 +68,5 @@ class PagingController<T> {
 
   dispose() {
     _items.clear();
-    scrollController.dispose();
   }
 }

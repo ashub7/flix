@@ -5,7 +5,7 @@ enum RoutesName {
   account,
   favorites,
   detail,
-  fullScreenImage
+  fullScreenImage,
 }
 
 extension RoutesNameHelper on RoutesName {

@@ -31,13 +31,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _confirmPasswordController = TextEditingController();
   final _nameController = TextEditingController();
   final _dobController = TextEditingController();
-  late RegistrationBloc registrationBloc;
   String _avatarUrl = "";
   int selectedGender = 0;
 
   @override
   Widget build(BuildContext context) {
-    registrationBloc = BlocProvider.of<RegistrationBloc>(context);
     return SafeArea(
         child: Scaffold(
       appBar: AppBar(
@@ -45,7 +43,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         automaticallyImplyLeading: true,
       ),
       body: BlocListener<RegistrationBloc, RegistrationState>(
-        bloc: registrationBloc,
+        bloc: BlocProvider.of<RegistrationBloc>(context),
         listener: (context, state) {
           if (state is RegistrationErrorState) {
             context.showErrorSnackBar(state.errorType.errorString(context));
@@ -61,7 +59,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 child: Column(
                   children: [
                     20.verticalSpaceFromWidth,
-                    _avatar(context),
+                    _avatar(),
                     50.verticalSpaceFromWidth,
                     FormTextField(
                       widgetKey: const Key("name_field"),
@@ -115,7 +113,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       },
                     ),
                     22.verticalSpaceFromWidth,
-                    _submitButton(context),
+                    _submitButton(),
                   ],
                 ),
               ),
@@ -127,11 +125,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
     ));
   }
 
-  _submitButton(BuildContext context) {
+  _submitButton() {
     return ElevatedButton(
       onPressed: () {
         FocusScope.of(context).unfocus();
-        registrationBloc.add(RegistrationSubmitEvent(
+        BlocProvider.of<RegistrationBloc>(context).add(RegistrationSubmitEvent(
             fullName: _nameController.text,
             email: _emailController.text,
             password: _passwordController.text,
@@ -146,7 +144,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   Widget _progressView() {
     return BlocBuilder(
-        bloc: registrationBloc,
+        bloc: BlocProvider.of<RegistrationBloc>(context),
         builder: (context, state) {
           return Visibility(
             visible: state is RegistrationLoading,
@@ -155,9 +153,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
         });
   }
 
-  _avatar(BuildContext context) {
+  _avatar() {
     return BlocBuilder(
-      bloc: registrationBloc,
+      bloc: BlocProvider.of<RegistrationBloc>(context),
       buildWhen: (previous, current) =>
           current is RegistrationProfilePicState ||
           current is RegistrationInitial,
@@ -212,7 +210,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   _imageUrlChanged(String url) {
-    registrationBloc.add(RegistrationProfilePicEvent(imageUrl: url));
+    BlocProvider.of<RegistrationBloc>(context).add(RegistrationProfilePicEvent(imageUrl: url));
   }
 
   _dateField(BuildContext context) {

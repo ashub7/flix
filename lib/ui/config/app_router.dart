@@ -29,7 +29,7 @@ final GlobalKey<NavigatorState> _favTabNavigatorKey =
 final GlobalKey<NavigatorState> _accountTabNavigatorKey =
     GlobalKey<NavigatorState>();
 
-BuildContext get context => router.routerDelegate.navigatorKey.currentContext!;
+//BuildContext get context => router.routerDelegate.navigatorKey.currentContext!;
 
 GoRouterDelegate get routerDelegate => router.routerDelegate;
 
@@ -144,7 +144,9 @@ final routes = [
       Map extras = state.extra as Map<String, dynamic>;
       return _getPage(
           MultiBlocProvider(providers: [
-            BlocProvider(create: (context) => getIt<DetailBloc>()..add(LoadDetailEvent(movieId: extras["id"]))),
+            BlocProvider(
+                create: (context) => getIt<DetailBloc>()
+                  ..add(LoadDetailEvent(movieId: extras["id"]))),
             BlocProvider(create: (context) => getIt<FavoriteBloc>()),
           ], child: DetailScreen(movieId: extras["id"])),
           state);
@@ -160,7 +162,7 @@ final routes = [
         state,
       );
     },
-  )
+  ),
 ];
 
 _getPage(Widget child, GoRouterState state) {

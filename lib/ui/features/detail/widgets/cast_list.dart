@@ -1,12 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flix/core/extension/text_style_extension.dart';
-import 'package:flix/ui/config/app_router.dart';
 import 'package:flix/ui/models/cast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../models/movie_photos.dart';
-import 'dart:math' as math;
 
 class CastList extends StatelessWidget {
   final List<Cast> castList;
@@ -22,12 +19,12 @@ class CastList extends StatelessWidget {
         separatorBuilder: (context, index) => 10.horizontalSpace,
         itemCount: castList.length,
         itemBuilder: (context, index) {
-          return _castItem(castList[index]);
+          return _castItem(castList[index], context);
         },),
     );
   }
 
-  _castItem(Cast cast) {
+  _castItem(Cast cast, BuildContext context) {
     return SizedBox(
       width: 80,
       height: 100,

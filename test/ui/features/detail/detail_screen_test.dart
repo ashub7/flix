@@ -9,9 +9,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-import '../../helpers/json_reader.dart';
-import '../mock_blocs.dart';
-import '../ui_test_helper.dart';
+import '../../../helpers/json_reader.dart';
+import '../../mock_blocs.dart';
+import '../../ui_test_helper.dart';
 
 late Widget detailScreenWidget;
 late DetailBloc _detailBloc;

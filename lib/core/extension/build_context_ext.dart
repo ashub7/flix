@@ -24,7 +24,7 @@ extension BuildContextUtils on BuildContext {
         duration: const Duration(seconds: 2),
         content: Text(
           message,
-          style: context.titleMedium,
+          style: titleMedium,
         ),
       ),
     );
@@ -38,7 +38,7 @@ extension BuildContextUtils on BuildContext {
         duration: const Duration(seconds: 3),
         content: Text(
           message,
-          style: context.titleMedium?.copyWith(
+          style: titleMedium?.copyWith(
             color: Colors.white
           ),
         ),
@@ -56,7 +56,7 @@ extension BuildContextUtils on BuildContext {
         duration: const Duration(seconds: 2),
         content: Text(
           message,
-          style: context.titleMedium,
+          style: titleMedium,
         ),
         behavior: SnackBarBehavior.fixed,
         backgroundColor: Colors.green,
@@ -71,7 +71,7 @@ extension BuildContextUtils on BuildContext {
         duration: const Duration(seconds: 2),
         content: Text(
           message,
-          style: context.titleMedium,
+          style: titleMedium,
         ),
         behavior: SnackBarBehavior.fixed,
         backgroundColor: Colors.red,
@@ -81,7 +81,7 @@ extension BuildContextUtils on BuildContext {
 
   Future<DateTime?> showDobPicker() async {
     DateTime? dateTime = await showDatePicker(
-        context: context,
+        context: this,
         firstDate: DateTime(1950),
         lastDate:  DateTime.now());
     return dateTime;

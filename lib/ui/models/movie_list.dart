@@ -32,6 +32,8 @@ class Movie extends Equatable{
   final double? voteAverage;
   final int? voteCount;
   bool isFavorite = false;
+  bool shouldHighlight = false;
+  double height = 0;
 
   Movie(
       {required this.adult,

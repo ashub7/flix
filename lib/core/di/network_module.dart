@@ -13,9 +13,9 @@ abstract class NetworkModule{
       receiveTimeout: const Duration(seconds: 10)
     );
     dio.interceptors.add(PrettyDioLogger(
-      request: false,
-      requestBody: false,
-      requestHeader: false,
+      request: true,
+      requestBody: true,
+      requestHeader: true,
       responseBody: false
     ));
     dio.interceptors.add(InterceptorsWrapper(onRequest: (options, handler) {

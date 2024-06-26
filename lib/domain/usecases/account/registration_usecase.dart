@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:flix/domain/repository/database_repository.dart';
 import 'package:flix/domain/usecases/base_usecase_with_param.dart';
 import 'package:injectable/injectable.dart';
@@ -15,7 +16,7 @@ class RegistrationUseCase
   }
 }
 
-class RegistrationParams {
+class RegistrationParams extends Equatable{
   final String fullName;
   final String email;
   final String password;
@@ -23,6 +24,12 @@ class RegistrationParams {
   final String avatar;
   final String dob;
 
-  RegistrationParams(
+  const RegistrationParams(
       {required this.fullName, required this.email, required this.password, required this.gender, required this.avatar, required this.dob});
+
+  @override
+  List<Object?> get props => [email, fullName];
+
+  @override
+  bool? get stringify => true;
 }

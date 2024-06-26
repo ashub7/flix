@@ -21,7 +21,6 @@ void main() {
     moviesRemoteDataSource = MoviesRemoteDataSourceImpl(webService);
   });
 
-
   group("getLatestMovies", () {
     test("Should return success", () async {
       when(webService.getLatestMovies(1)).thenAnswer((_) async => HttpResponse(
@@ -34,21 +33,18 @@ void main() {
     test("Should return Exception", () async {
       when(webService.getLatestMovies(1))
           .thenAnswer((_) async => throw Exception());
-      try {
-        await moviesRemoteDataSource.getLatestMovies(1);
-      } on Exception catch (e) {
-        expect(e, isA<Exception>());
-      }
+      final response = moviesRemoteDataSource.getLatestMovies(1);
+      expect(response, throwsException);
     });
   });
 
-
-
   group("getTopRatedMovies", () {
     test("Should return success", () async {
-      when(webService.getTopRatedMovies(1)).thenAnswer((_) async => HttpResponse(
-          movieListResponse,
-          Response(statusCode: 200, requestOptions: RequestOptions(path: ""))));
+      when(webService.getTopRatedMovies(1)).thenAnswer((_) async =>
+          HttpResponse(
+              movieListResponse,
+              Response(
+                  statusCode: 200, requestOptions: RequestOptions(path: ""))));
       final result = await moviesRemoteDataSource.getTopRatedMovies(1);
       expect(result, movieListResponse);
     });
@@ -56,14 +52,10 @@ void main() {
     test("Should return Exception", () async {
       when(webService.getTopRatedMovies(1))
           .thenAnswer((_) async => throw Exception());
-      try {
-        await moviesRemoteDataSource.getTopRatedMovies(1);
-      } on Exception catch (e) {
-        expect(e, isA<Exception>());
-      }
+      final response = moviesRemoteDataSource.getTopRatedMovies(1);
+      expect(response, throwsException);
     });
   });
-
 
   group("getMovieDetail", () {
     test("Should return success", () async {
@@ -85,7 +77,6 @@ void main() {
     });
   });
 
-
   group("getMovieCast", () {
     test("Should return success", () async {
       when(webService.getMovieCast(278)).thenAnswer((_) async => HttpResponse(
@@ -106,7 +97,6 @@ void main() {
     });
   });
 
-
   group("getMoviePhotos", () {
     test("Should return success", () async {
       when(webService.getMoviePhotos(278)).thenAnswer((_) async => HttpResponse(
@@ -119,12 +109,8 @@ void main() {
     test("Should return Exception", () async {
       when(webService.getMoviePhotos(278))
           .thenAnswer((_) async => throw Exception());
-      try {
-        await moviesRemoteDataSource.getMoviePhotos(278);
-      } on Exception catch (e) {
-        expect(e, isA<Exception>());
-      }
+      final response = moviesRemoteDataSource.getMoviePhotos(278);
+      expect(response, throwsException);
     });
   });
-
 }

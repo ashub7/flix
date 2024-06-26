@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flix/domain/repository/database_repository.dart';
 import 'package:flix/domain/usecases/base_usecase_with_param.dart';
 import 'package:injectable/injectable.dart';
@@ -20,9 +21,15 @@ class LoginUseCase extends BaseLocalUseCaseWithParams<int, LoginParams> {
   }
 }
 
-class LoginParams {
+class LoginParams extends Equatable{
   final String email;
   final String password;
 
-  LoginParams({required this.email, required this.password});
+  const LoginParams({required this.email, required this.password});
+
+  @override
+  List<Object?> get props => [email, password];
+
+  @override
+  bool? get stringify => true;
 }

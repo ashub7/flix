@@ -1,6 +1,7 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flix/ui/features/detail/bloc/detail_bloc.dart';
 import 'package:flix/ui/features/favorite/bloc/favorite_bloc.dart';
+import 'package:flix/ui/features/login/bloc/login_bloc.dart';
 import 'package:flix/ui/features/registration/bloc/registration_bloc.dart';
 
 class MockDetailBloc extends MockBloc<DetailEvent, DetailState>
@@ -12,3 +13,6 @@ class MockRegistrationBloc
 
 class MockFavoriteBloc extends MockBloc<FavoriteEvent, FavoriteState>
     implements FavoriteBloc {}
+
+class MockLoginBloc extends MockBloc<LoginEvent, LoginState>
+    implements LoginBloc {}

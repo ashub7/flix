@@ -44,7 +44,7 @@ class FavoriteListTile extends StatelessWidget {
                   height: double.infinity,
                 ),
               ),
-              _content()
+              _content(context)
             ])
           ],
         ),
@@ -52,7 +52,7 @@ class FavoriteListTile extends StatelessWidget {
     );
   }
 
-  _content() {
+  _content(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: Row(

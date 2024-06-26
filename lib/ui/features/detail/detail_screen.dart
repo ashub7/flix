@@ -44,7 +44,7 @@ class DetailScreen extends StatelessWidget {
               },
             );
           } else if (state is DetailLoaded) {
-            return _detailBody(state);
+            return _detailBody(state, context);
           } else {
             return const Center(
               child: CircularProgressIndicator.adaptive(),
@@ -55,11 +55,11 @@ class DetailScreen extends StatelessWidget {
     );
   }
 
-  _detailBody(DetailLoaded state) {
+  _detailBody(DetailLoaded state, BuildContext context) {
     return SingleChildScrollView(
       child: Stack(
         children: [
-          _posterImage(state.detail.posterImage()),
+          _posterImage(state.detail.posterImage(), context),
           Padding(
             padding: EdgeInsets.only(
                 top: context.screenHeight * .30,
@@ -71,7 +71,7 @@ class DetailScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                _movieContentRow(state.detail),
+                _movieContentRow(state.detail, context),
                 15.verticalSpaceFromWidth,
                 Text(
                   context.loc.story_line,
@@ -112,7 +112,7 @@ class DetailScreen extends StatelessWidget {
     );
   }
 
-  _movieContentRow(MovieDetail movieDetail) {
+  _movieContentRow(MovieDetail movieDetail,BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.end,
@@ -206,7 +206,7 @@ class DetailScreen extends StatelessWidget {
     );
   }
 
-  _posterImage(String imageUrl) {
+  _posterImage(String imageUrl, BuildContext context) {
     return ClipPath(
       clipper: CurveClipper(),
       child: Container(

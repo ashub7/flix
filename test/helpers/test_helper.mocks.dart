@@ -7,6 +7,7 @@ import 'dart:async' as _i5;
 
 import 'package:dartz/dartz.dart' as _i3;
 import 'package:flix/core/errors/api_failure.dart' as _i11;
+import 'package:flix/data/local/model/user_model.dart' as _i18;
 import 'package:flix/data/remote/models/cast_response.dart' as _i8;
 import 'package:flix/data/remote/models/movie_detail_response.dart' as _i7;
 import 'package:flix/data/remote/models/movie_list_response.dart' as _i6;
@@ -17,6 +18,10 @@ import 'package:flix/domain/entities/movie_detail_entity.dart' as _i13;
 import 'package:flix/domain/entities/movie_list_entity.dart' as _i12;
 import 'package:flix/domain/entities/movie_photos_entity.dart' as _i15;
 import 'package:flix/domain/repository/movie_repository.dart' as _i10;
+import 'package:flix/domain/repository/preference_repository.dart' as _i19;
+import 'package:flix/domain/usecases/account/login_usecase.dart' as _i20;
+import 'package:flix/domain/usecases/account/profile_usecase.dart' as _i17;
+import 'package:flix/domain/usecases/account/registration_usecase.dart' as _i16;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:retrofit/retrofit.dart' as _i2;
 
@@ -255,4 +260,170 @@ class MockMovieRepository extends _i1.Mock implements _i10.MovieRepository {
               ),
             )),
           ) as _i5.Future<_i3.Either<_i11.ApiFailure, _i15.MoviePhotosEntity>>);
+}
+
+/// A class which mocks [RegistrationUseCase].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockRegistrationUseCase extends _i1.Mock
+    implements _i16.RegistrationUseCase {
+  MockRegistrationUseCase() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i5.Future<int> call(_i16.RegistrationParams? params) => (super.noSuchMethod(
+        Invocation.method(
+          #call,
+          [params],
+        ),
+        returnValue: _i5.Future<int>.value(0),
+      ) as _i5.Future<int>);
+}
+
+/// A class which mocks [ProfileUseCase].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockProfileUseCase extends _i1.Mock implements _i17.ProfileUseCase {
+  MockProfileUseCase() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i5.Future<_i18.UserModel?> getProfileById(int? id) => (super.noSuchMethod(
+        Invocation.method(
+          #getProfileById,
+          [id],
+        ),
+        returnValue: _i5.Future<_i18.UserModel?>.value(),
+      ) as _i5.Future<_i18.UserModel?>);
+
+  @override
+  _i5.Future<int> updateProfile(_i18.UserModel? userModel) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #updateProfile,
+          [userModel],
+        ),
+        returnValue: _i5.Future<int>.value(0),
+      ) as _i5.Future<int>);
+
+  @override
+  _i5.Future<_i18.UserModel?> getProfileByEmail(String? email) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getProfileByEmail,
+          [email],
+        ),
+        returnValue: _i5.Future<_i18.UserModel?>.value(),
+      ) as _i5.Future<_i18.UserModel?>);
+}
+
+/// A class which mocks [PreferenceRepository].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockPreferenceRepository extends _i1.Mock
+    implements _i19.PreferenceRepository {
+  MockPreferenceRepository() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  void setString(
+    String? key,
+    String? value,
+  ) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #setString,
+          [
+            key,
+            value,
+          ],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void setInt(
+    String? key,
+    int? value,
+  ) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #setInt,
+          [
+            key,
+            value,
+          ],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  String? getString(String? key) => (super.noSuchMethod(Invocation.method(
+        #getString,
+        [key],
+      )) as String?);
+
+  @override
+  int getInt(String? key) => (super.noSuchMethod(
+        Invocation.method(
+          #getInt,
+          [key],
+        ),
+        returnValue: 0,
+      ) as int);
+
+  @override
+  void setBool(
+    String? key,
+    bool? value,
+  ) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #setBool,
+          [
+            key,
+            value,
+          ],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  bool getBool(String? key) => (super.noSuchMethod(
+        Invocation.method(
+          #getBool,
+          [key],
+        ),
+        returnValue: false,
+      ) as bool);
+
+  @override
+  void clearAll() => super.noSuchMethod(
+        Invocation.method(
+          #clearAll,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
+}
+
+/// A class which mocks [LoginUseCase].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockLoginUseCase extends _i1.Mock implements _i20.LoginUseCase {
+  MockLoginUseCase() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i5.Future<int> call(_i20.LoginParams? params) => (super.noSuchMethod(
+        Invocation.method(
+          #call,
+          [params],
+        ),
+        returnValue: _i5.Future<int>.value(0),
+      ) as _i5.Future<int>);
 }

@@ -6,7 +6,7 @@ import 'package:flix/ui/config/rout_names.dart';
 import 'package:flix/ui/features/favorite/bloc/favorite_bloc.dart';
 import 'package:flix/ui/features/home/bloc/home_bloc.dart';
 import 'package:flix/ui/features/home/widgets/home_slider_view.dart';
-import 'package:flix/ui/features/home/widgets/movies_grid.dart';
+import 'package:flix/ui/features/home/widgets/movies_sliver_grid.dart';
 import 'package:flix/ui/widgets/api_error_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -95,7 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         },
                       )),
                 ),
-                MoviesGrid(
+                MoviesSliverGrid(
                   movieList: latestMovies,
                   onFavIconCLicked: (movie) {
                     BlocProvider.of<FavoriteBloc>(context)
@@ -122,6 +122,7 @@ class _HomeScreenState extends State<HomeScreen> {
         topRated.addAll(state.topRated!);
       }
       latestMovies.addAll(state.latest!.results);
+      hasNextPage = state.latest!.page<state.latest!.totalPages;
     }
   }
 

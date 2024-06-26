@@ -22,7 +22,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final GetTopRatedMoviesUseCase _getTopRatedMoviesUseCase;
   final FavoriteMapperUseCase _favoriteMapperUseCase;
 
-  HomeBloc(this._getLatestMoviesUseCase, this._getTopRatedMoviesUseCase, this._favoriteMapperUseCase)
+  HomeBloc(this._getLatestMoviesUseCase, this._getTopRatedMoviesUseCase,
+      this._favoriteMapperUseCase)
       : super(HomeInitial()) {
     on<LoadMoviesEvent>(_onLoadMovies);
     on<LoadMoreLatestEvent>(_onLoadMoreLatest);
@@ -31,6 +32,27 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       emit(HomeDataSetChangedState());
     });
 
+    on<LoadTopRatedMoviesEvent>(_onLoadTopRatedMovies);
+    on<NotifyJumpToEvent>((event, emit) {
+      emit(HomeInitial());
+      emit(NotifyJumpToState(show: event.show));
+    },);
+  }
+
+  Future<void> _onLoadTopRatedMovies(
+      LoadTopRatedMoviesEvent event, Emitter<HomeState> emit) async {
+    emit(event.page ==1 ? HomeLoading() : HomePageLoading());
+    await Future.delayed(const Duration(seconds: 3));
+    final result = await _getTopRatedMoviesUseCase(event.page);
+    result.fold(
+      (failure) {
+        emit(HomeLoadError(failure.message, event.page));
+      },
+      (response) async {
+        _favoriteMapperUseCase.mapList(response);
+        emit(MovieListLoadSuccess(movieList: response.toUiModel()));
+      },
+    );
   }
 
   Future<void> _onLoadMoreLatest(
@@ -43,7 +65,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         emit(HomeLoadError(failure.message, event.page));
       },
       (response) async {
-         _favoriteMapperUseCase.mapList(response);
+        _favoriteMapperUseCase.mapList(response);
         emit(HomeLoadSuccess(latest: response.toUiModel(), page: event.page));
       },
     );
