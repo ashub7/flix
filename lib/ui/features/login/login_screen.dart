@@ -105,6 +105,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   _emailField() {
     return FormTextField(
+      widgetKey: const Key("login_email_field"),
       _emailController,
       hintText: context.loc.email,
       keyboardType: TextInputType.emailAddress,
@@ -113,6 +114,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   _passwordField() {
     return FormTextField(
+      widgetKey: const Key("login_password_field"),
       _passwordController,
       isPassword: true,
       hintText: context.loc.password,
