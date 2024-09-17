@@ -11,8 +11,6 @@ import '../../../helpers/json_reader.dart';
 import '../../mock_blocs.dart';
 import '../../ui_test_helper.dart';
 
-
-
 void main() {
   late AppDatabase database;
   late UserDao userDao;
@@ -20,24 +18,24 @@ void main() {
   late UserModel testUser;
   late RegistrationBloc mockBloc;
 
-  setUpAll(() async{
+  setUpAll(() async {
     mockBloc = MockRegistrationBloc();
     widgetUnderTest = makeTestableWidget(
         child: BlocProvider(
             create: (context) => mockBloc, child: const RegisterScreen()));
-    //database = await $FloorAppDatabase.inMemoryDatabaseBuilder().build();
-    //userDao = database.userDao;
+    database = await $FloorAppDatabase.inMemoryDatabaseBuilder().build();
+    userDao = database.userDao;
     testUser = dummyUser();
   });
 
-
-
   tearDown(() async {
-   // await database.close();
+    await database.close();
   });
 
   testWidgets("Sign Up widget appeared on screen", (widgetTester) async {
-    when(() => mockBloc.state,).thenReturn(RegistrationInitial());
+    when(
+      () => mockBloc.state,
+    ).thenReturn(RegistrationInitial());
     await widgetTester.pumpWidget(widgetUnderTest);
     await widgetTester.pump();
     expect(find.byType(AppBar), findsOneWidget);
@@ -46,25 +44,28 @@ void main() {
     expect(nameFieldFinder, findsOneWidget);
   });
 
-/*  testWidgets("Sign Up test", (tester) async {
-    await tester.pumpWidget(widgetUnderTest);
+  testWidgets("Sign Up test", (widgetTester) async {
+    when(
+      () => mockBloc.state,
+    ).thenReturn(RegistrationInitial());
+    await widgetTester.pumpWidget(widgetUnderTest);
+    //await widgetTester.pumpAndSettle();
     final nameFieldFinder = find.byKey(const Key("name_field"));
     final emailFieldFinder = find.byKey(const Key("email_field"));
     final dobFieldFinder = find.byKey(const Key("dob_field"));
     final passwordFieldFinder = find.byKey(const Key("password_field"));
     final cPasswordFieldFinder =
         find.byKey(const Key("confirm_password_field"));
-    final submitButtonFinder = find.byType(ElevatedButton);
+    await widgetTester.enterText(nameFieldFinder, testUser.fullName);
+    await widgetTester.enterText(emailFieldFinder, testUser.email);
+    await widgetTester.enterText(dobFieldFinder, testUser.dob);
+    await widgetTester.enterText(passwordFieldFinder, testUser.password);
+    await widgetTester.enterText(cPasswordFieldFinder, testUser.password);
 
-    await tester.enterText(nameFieldFinder, testUser.fullName);
-    await tester.enterText(emailFieldFinder, testUser.email);
-    await tester.enterText(dobFieldFinder, testUser.dob);
-    await tester.enterText(passwordFieldFinder, testUser.password);
-    await tester.enterText(cPasswordFieldFinder, testUser.password);
-
-    await tester.tap(submitButtonFinder);
-
+   // await widgetTester.ensureVisible(find.byType(ElevatedButton));
+    await widgetTester.pumpAndSettle();
+    await widgetTester.tap(find.byType(ElevatedButton));
     final users = await userDao.findAll();
     expect(users, isNotEmpty);
-  });*/
+  });
 }

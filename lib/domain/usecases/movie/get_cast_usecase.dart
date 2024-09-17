@@ -10,6 +10,7 @@ import 'package:injectable/injectable.dart';
 class GetCastUseCase extends BaseUseCaseWithParams<List<CastEntity>, int> {
   final MovieRepository _movieRepository;
 
+
   GetCastUseCase(this._movieRepository);
 
   @override
