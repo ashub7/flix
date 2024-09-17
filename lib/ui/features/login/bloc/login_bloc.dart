@@ -22,7 +22,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   Future<void> _onLoginUserEvent(
       LoginSubmitEvent event, Emitter<LoginState> emit) async {
-    emit.call(LoginLoading());
+    //emit.call(LoginLoading());
     if(!event.email.isValidEmail()){
       emit(const LoginError(errorType: LoginValidationError.invalidEmail));
     }else if(!event.password.isValidPassword()){
@@ -30,7 +30,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     }else{
       await Future.delayed(const Duration(seconds: 2));
       final loginUserId = await _loginUseCase(LoginParams(email: event.email, password: event.password));
-      if(loginUserId!=-1){
+      if(loginUserId!=-1) {
         _preferenceRepository.setInt(PreferenceKeys.loggedInUserId, loginUserId);
         emit(LoginSuccess());
       }else{

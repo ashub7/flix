@@ -10,6 +10,7 @@ class FormTextField extends StatefulWidget {
   final TextCapitalization textCapitalization;
   final bool isEnabled;
   final Key? widgetKey;
+  final bool? showErrorBorder;
 
   const FormTextField(this._controller,
       {super.key,
@@ -19,6 +20,7 @@ class FormTextField extends StatefulWidget {
       this.textInputAction = TextInputAction.next,
       this.textCapitalization = TextCapitalization.none,
       this.errorText,
+        this.showErrorBorder,
         this.widgetKey,
       this.isEnabled = true});
 
@@ -43,6 +45,15 @@ class _FormTextFieldState extends State<FormTextField> {
       textInputAction: widget.textInputAction,
       enabled: widget.isEnabled,
       decoration: InputDecoration(
+          enabledBorder: OutlineInputBorder(
+            borderRadius: const BorderRadius.all(Radius.circular(10)),
+            borderSide: BorderSide(
+              color: widget.showErrorBorder == true
+                  ? Colors.red
+                  : Colors.black,
+              width: 1,
+            ),
+          ),
         fillColor:
             widget.isEnabled ? Colors.transparent : Theme.of(context).disabledColor,
         contentPadding: const EdgeInsets.symmetric(

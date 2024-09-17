@@ -37,9 +37,9 @@ class _LoginScreenState extends State<LoginScreen> {
           body: BlocListener<LoginBloc, LoginState>(
             bloc: BlocProvider.of<LoginBloc>(context),
             listener: (context, state) {
-              if(state is LoginError){
+              if (state is LoginError) {
                 context.showErrorSnackBar(state.errorType.errorString(context));
-              }else if(state is LoginSuccess){
+              } else if (state is LoginSuccess) {
                 context.go(RoutesName.home.path);
               }
             },
@@ -56,6 +56,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         50.verticalSpaceFromWidth,
                         _emailField(),
+                        _emailError(),
                         16.verticalSpaceFromWidth,
                         _passwordField(),
                         6.verticalSpaceFromWidth,
@@ -104,21 +105,52 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   _emailField() {
-    return FormTextField(
-      widgetKey: const Key("login_email_field"),
-      _emailController,
-      hintText: context.loc.email,
-      keyboardType: TextInputType.emailAddress,
+    return BlocBuilder<LoginBloc, LoginState>(
+      builder: (context, state) {
+        return FormTextField(
+          widgetKey: const Key("login_email_field"),
+          _emailController,
+          hintText: context.loc.email,
+          keyboardType: TextInputType.emailAddress,
+          showErrorBorder: state is LoginError &&
+              state.errorType == LoginValidationError.invalidEmail,
+          errorText: state is LoginError &&
+              state.errorType == LoginValidationError.invalidEmail
+              ? state.errorType.errorString(context)
+              : null,
+        );
+      },
+    );
+  }
+
+  _emailError() {
+    return BlocBuilder<LoginBloc, LoginState>(
+      bloc: BlocProvider.of<LoginBloc>(context),
+      builder: (context, state) {
+        if(state is LoginError &&
+            state.errorType == LoginValidationError.invalidEmail){
+          return const Text("Invalid");
+        }
+        return const SizedBox.shrink();
+      },
     );
   }
 
   _passwordField() {
-    return FormTextField(
-      widgetKey: const Key("login_password_field"),
-      _passwordController,
-      isPassword: true,
-      hintText: context.loc.password,
-      keyboardType: TextInputType.visiblePassword,
+    return BlocBuilder<LoginBloc, LoginState>(
+      builder: (context, state) {
+        return FormTextField(
+          widgetKey: const Key("login_password_field"),
+          _passwordController,
+          isPassword: true,
+          hintText: context.loc.password,
+          keyboardType: TextInputType.visiblePassword,
+            showErrorBorder: state is LoginError && state.errorType == LoginValidationError.invalidPassword,
+            errorText: state is LoginError && state.errorType == LoginValidationError.invalidPassword
+                ? state.errorType.errorString(context)
+                : null
+        );
+      },
     );
   }
 

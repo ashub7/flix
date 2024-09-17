@@ -20,6 +20,7 @@ import 'package:go_router/go_router.dart';
 
 import '../features/splash/bloc/splash_bloc.dart';
 import '../features/splash/splash_screen.dart';
+import '../features/temp_screen.dart';
 
 final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>();
 final GlobalKey<NavigatorState> _homeTabNavigatorKey =
@@ -162,7 +163,16 @@ final routes = [
         state,
       );
     },
-  ),
+  ),GoRoute(
+    parentNavigatorKey: _rootNavigatorKey,
+    path: "/temp",
+    pageBuilder: (context, state) {
+      return _getPage(
+        const TempScreen(),
+        state,
+      );
+    },
+  )
 ];
 
 _getPage(Widget child, GoRouterState state) {
